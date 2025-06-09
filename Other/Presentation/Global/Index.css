@@ -1,0 +1,79 @@
+
+body {
+    background-image: url(./Background.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center left 70%;
+    margin: 0;
+    padding: 0;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 24pt;
+}
+
+main {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.8);
+    display: grid;
+    grid-template-columns: 20% 1fr;
+}
+
+side-bar {
+    color: white;
+    font-weight: bolder;
+    font-size: 150%;
+    padding: 30rem 1rem 1rem;
+
+
+    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url(./EB-Logo.svg);
+    background-size: 50% auto;
+    background-repeat: no-repeat;
+    background-position: top 2rem center;
+
+    logo {
+        display: block;
+        height: 15rem;
+        width: 15rem;
+        background-image: url(../../Logo.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+        position: fixed;
+        bottom: 0;
+        left: 5rem;
+    }
+}
+
+content {
+    padding: 1rem;
+    overflow-y: auto;
+    display: grid;
+    grid-template-rows: 5rem 1fr;
+
+    page {
+        margin-top: -5rem;
+        flex-grow: 1;
+        display: flex;
+        justify-self: center;
+        align-self: center;
+    }
+}
+
+img {
+    max-width: 100%;
+}
+
+film {
+    display: none;
+    width: 70vw;
+    align-items: center;
+    justify-self: center;
+
+    span {
+        text-align: left;
+        font-size: 120%;
+    }
+}
