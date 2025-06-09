@@ -1,0 +1,9 @@
+@layer component {
+    :host {
+        border: 2pt solid black;
+        width: 10rem;
+        height: 3rem;
+        position: absolute;
+        cursor: move;
+    }
+}

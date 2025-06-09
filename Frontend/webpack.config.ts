@@ -73,7 +73,13 @@ const config: Configuration & { devServer: any } = {
         port: 3000,
         static: {
             directory: path.join(__dirname, 'public')
-        }
+        },
+        proxy: [
+            {
+                context: ['/api'],
+                target: 'http://127.0.0.1:7071'
+            }
+        ]
     }
 };
 
