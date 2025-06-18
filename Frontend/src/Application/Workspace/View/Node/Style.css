@@ -1,6 +1,8 @@
 @layer component {
     :host {
-        border: 2pt solid black;
+        border: 0.075rem solid gray;
+        border-radius: 0.25rem;
+        background-color: #fff;
         width: 10rem;
         height: 3rem;
         position: absolute;
