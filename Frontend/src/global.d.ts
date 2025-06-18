@@ -16,3 +16,4 @@ declare module process {
 }
 
 type JsonData = Record<string, any>;
+type Callback<Function = () => void> = Function;

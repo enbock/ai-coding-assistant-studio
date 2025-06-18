@@ -45,7 +45,7 @@ const config: Configuration & { devServer: any } = {
         ]
     },
     optimization: {
-        minimize: true
+        minimize: false
     },
     plugins: [
         new CopyPlugin({
