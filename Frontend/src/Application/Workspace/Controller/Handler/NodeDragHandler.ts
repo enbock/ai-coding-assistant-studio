@@ -1,16 +1,13 @@
 import Adapter from '../Adapter';
 import {PresentDataCallback} from '../../../../ControllerHandler';
 import ControllerHandler from '../../../../ControllerHandler';
-import NodeModel from '../../View/Node/NodeModel';
+import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
+import NodeMoveRequest from './NodeMoveRequest';
 
 export default class NodeDragHandler implements ControllerHandler {
-    /**
-     * @deprecated
-     */
-    private tempNodeModel: NodeModel = new NodeModel();
-
     constructor(
-        private adapter: Adapter
+        private adapter: Adapter,
+        private nodeUseCase: NodeUseCase
     ) {
     }
 
@@ -22,28 +19,23 @@ export default class NodeDragHandler implements ControllerHandler {
         this.adapter.dragNode = this.handleDragNode.bind(this);
     }
 
-    /**
-     * @deprecated
-     */
-    public setViewModel(model: NodeModel): void {
-        this.tempNodeModel = model;
-    }
-
     private presentData: PresentDataCallback = () => false as never;
 
     private handleStartNodeDrag(): void {
-        this.tempNodeModel.dragging = true;
+        this.nodeUseCase.startMovement();
         void this.presentData();
     }
 
     private handleStopNodeDrag(): void {
-        this.tempNodeModel.dragging = false;
+        this.nodeUseCase.stopMovement();
         void this.presentData();
     }
 
     private handleDragNode(x: number, y: number): void {
-        this.tempNodeModel.x = x;
-        this.tempNodeModel.y = y;
+        const request: NodeMoveRequest = new NodeMoveRequest();
+        request.x = x;
+        request.y = y;
+        this.nodeUseCase.moveNode(request);
         void this.presentData();
     }
 }
