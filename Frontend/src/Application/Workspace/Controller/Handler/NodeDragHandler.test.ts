@@ -3,23 +3,29 @@ import Adapter from '../Adapter';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
 import {PresentDataCallback} from '../../../../ControllerHandler';
 import NodeMoveRequest from './NodeMoveRequest';
+import ScreenConfig from '../../../ScreenConfig';
 import createSpy = jasmine.createSpy;
 
 describe('NodeDragHandler', function (): void {
     let handler: NodeDragHandler,
         adapter: Mocked<Adapter>,
         nodeUseCase: Mocked<NodeUseCase>,
-        presentData: PresentDataCallback
+        presentData: PresentDataCallback,
+        screenConfig: ScreenConfig
     ;
 
     beforeEach(function (): void {
         adapter = mock<Adapter>();
         nodeUseCase = mock<NodeUseCase>();
         presentData = createSpy();
+        screenConfig = new ScreenConfig();
+        screenConfig.width = 1200;
+        screenConfig.height = 800;
 
         handler = new NodeDragHandler(
             adapter,
-            nodeUseCase
+            nodeUseCase,
+            screenConfig
         );
     });
 
@@ -41,11 +47,11 @@ describe('NodeDragHandler', function (): void {
 
     it('should move the node', async function (): Promise<void> {
         await handler.initialize(presentData);
-        adapter.dragNode(1, 2);
+        adapter.dragNode(300, 500);
 
         const expectedRequest = new NodeMoveRequest();
-        expectedRequest.x = 1;
-        expectedRequest.y = 2;
+        expectedRequest.x = -0.5;
+        expectedRequest.y = 0.25;
         expect(nodeUseCase.moveNode).toHaveBeenCalledWith(expectedRequest);
         expect(presentData).toHaveBeenCalled();
     });

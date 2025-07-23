@@ -15,6 +15,8 @@ export default class NodeUseCase {
         nodeResponse.x = position.x;
         nodeResponse.y = position.y;
         nodeResponse.isMoving = this.nodeStorage.getMovementInProgress();
+
+        console.log(position);
     }
 
     public startMovement(): void {

@@ -3,11 +3,13 @@ import {PresentDataCallback} from '../../../../ControllerHandler';
 import ControllerHandler from '../../../../ControllerHandler';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
 import NodeMoveRequest from './NodeMoveRequest';
+import ScreenConfig from '../../../ScreenConfig';
 
 export default class NodeDragHandler implements ControllerHandler {
     constructor(
         private adapter: Adapter,
-        private nodeUseCase: NodeUseCase
+        private nodeUseCase: NodeUseCase,
+        private screenConfig: ScreenConfig
     ) {
     }
 
@@ -35,8 +37,8 @@ export default class NodeDragHandler implements ControllerHandler {
 
     private handleDragNode(x: number, y: number): void {
         const request: NodeMoveRequest = new NodeMoveRequest();
-        request.x = x;
-        request.y = y;
+        request.x = ((2.0 / this.screenConfig.width) * x) - 1.0;
+        request.y = ((2.0 / this.screenConfig.height) * y) - 1.0;
 
         this.nodeUseCase.moveNode(request);
 

@@ -9,29 +9,40 @@ import NodeStorageMemory from '../../Infrastructure/Node/NodeStorage/Memory/Memo
 import NodeStorage from '../../Core/Node/NodeStorage';
 import WorkspacePresenter from '../Workspace/View/WorkspacePresenter';
 import NodePresenter from '../Workspace/View/Node/NodePresenter';
+import ScreenConfig from '../ScreenConfig';
+import ScreenConfigHandler from '../Workspace/Controller/Handler/ScreenConfigHandler';
 
 export class Container {
     public readonly workspaceController: WorkspaceController;
     public readonly workspaceAdapter: WorkspaceAdapter = new WorkspaceAdapter();
 
     constructor() {
+        const screenConfig: ScreenConfig = new ScreenConfig();
         const nodeStorage: NodeStorage = new NodeStorageMemory();
         const nodeUseCase: NodeUseCase = new NodeUseCase(
             nodeStorage
         );
         const nodeDragHandler: NodeDragHandler = new NodeDragHandler(
             this.workspaceAdapter,
-            nodeUseCase
+            nodeUseCase,
+            screenConfig
+        );
+        const screenConfigHandler: ScreenConfigHandler = new ScreenConfigHandler(
+            screenConfig,
+            window
         );
         this.workspaceController = new WorkspaceController(
             [
+                screenConfigHandler,
                 nodeDragHandler
             ],
             new DataCollector(
                 nodeUseCase
             ),
             new WorkspacePresenter(
-                new NodePresenter()
+                new NodePresenter(
+                    screenConfig
+                )
             )
         );
 
