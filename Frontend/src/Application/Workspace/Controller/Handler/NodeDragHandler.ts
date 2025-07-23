@@ -14,8 +14,8 @@ export default class NodeDragHandler implements ControllerHandler {
     public async initialize(presentData: PresentDataCallback): Promise<void> {
         this.presentData = presentData;
 
-        this.adapter.startNodeDrag = () => this.handleStartNodeDrag();
-        this.adapter.stopNodeDrag = () => this.handleStopNodeDrag();
+        this.adapter.startNodeDrag = this.handleStartNodeDrag.bind(this);
+        this.adapter.stopNodeDrag = this.handleStopNodeDrag.bind(this);
         this.adapter.dragNode = this.handleDragNode.bind(this);
     }
 
@@ -23,11 +23,13 @@ export default class NodeDragHandler implements ControllerHandler {
 
     private handleStartNodeDrag(): void {
         this.nodeUseCase.startMovement();
+
         void this.presentData();
     }
 
     private handleStopNodeDrag(): void {
         this.nodeUseCase.stopMovement();
+
         void this.presentData();
     }
 
@@ -35,7 +37,9 @@ export default class NodeDragHandler implements ControllerHandler {
         const request: NodeMoveRequest = new NodeMoveRequest();
         request.x = x;
         request.y = y;
+
         this.nodeUseCase.moveNode(request);
+
         void this.presentData();
     }
 }

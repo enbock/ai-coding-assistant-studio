@@ -2,22 +2,29 @@ import Controller from './Controller';
 import ControllerHandler from '../../../ControllerHandler';
 import {PresentDataCallback} from '../../../ControllerHandler';
 import Workspace from '../View/Workspace';
-import WorkspaceModel from '../View/WorkspaceModel';
+import DataCollector from './DataCollector';
+import WorkspacePresenter from '../View/WorkspacePresenter';
 
 describe('Controller', function (): void {
     let controller: Controller,
         handler: Mocked<ControllerHandler>,
-        workspaceInstance: Mocked<Workspace>
+        workspaceInstance: Mocked<Workspace>,
+        dataCollector: Mocked<DataCollector>,
+        presenter: Mocked<WorkspacePresenter>
     ;
 
     beforeEach(function (): void {
         workspaceInstance = mock<Workspace>();
         handler = mock<ControllerHandler>();
+        dataCollector = mock<DataCollector>();
+        presenter = mock<WorkspacePresenter>();
 
         controller = new Controller(
             [
                 handler
-            ]
+            ],
+            dataCollector,
+            presenter
         );
 
         controller.setComponent(workspaceInstance);
@@ -31,15 +38,17 @@ describe('Controller', function (): void {
                     await presentData();
                 }
             );
+            dataCollector.collectData.and.returnValue(<MockedObject>'test::data');
+            presenter.present.and.returnValue(<MockedObject>'test::presentedModel');
 
             workspaceInstance.model = <MockedObject>'test::oldModel';
 
             await controller.initialize();
 
             expect(handler.initialize).toHaveBeenCalled();
-
-            const expectModel = new WorkspaceModel();
-            expect(workspaceInstance.model).toEqual(expectModel);
+            expect(dataCollector.collectData).toHaveBeenCalled();
+            expect(presenter.present).toHaveBeenCalledWith(<MockedObject>'test::data');
+            expect(workspaceInstance.model).toEqual(<MockedObject>'test::presentedModel');
         }
     );
 });

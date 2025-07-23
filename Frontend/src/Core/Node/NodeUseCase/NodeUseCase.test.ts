@@ -2,6 +2,7 @@ import NodeUseCase from './NodeUseCase';
 import NodeMoveRequest from '../../../Application/Workspace/Controller/Handler/NodeMoveRequest';
 import NodeStorage from '../NodeStorage';
 import PositionEntity from '../PositionEntity';
+import NodeResponse from './NodeResponse';
 
 describe('NodeUseCase', function (): void {
     let nodeStorage: Mocked<NodeStorage>,
@@ -11,6 +12,26 @@ describe('NodeUseCase', function (): void {
         nodeStorage = mock<NodeStorage>();
 
         useCase = new NodeUseCase(nodeStorage);
+    });
+
+    it('should get current state', async function (): Promise<void> {
+        const nodeResponse: NodeResponse = {
+            x: 0,
+            y: 0,
+            isMoving: false
+        };
+        const position: PositionEntity = new PositionEntity();
+        position.x = 1;
+        position.y = -2;
+
+        nodeStorage.getPosition.and.returnValue(position);
+        nodeStorage.getMovementInProgress.and.returnValue(true);
+
+        useCase.getState(nodeResponse);
+
+        expect(nodeResponse.x).toBe(1);
+        expect(nodeResponse.y).toBe(-2);
+        expect(nodeResponse.isMoving).toBe(true);
     });
 
     it('should start node movement', function (): void {

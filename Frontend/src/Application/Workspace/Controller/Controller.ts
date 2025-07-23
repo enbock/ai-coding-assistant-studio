@@ -1,13 +1,18 @@
 import ControllerHandler from '../../../ControllerHandler';
 import {PresentDataCallback} from '../../../ControllerHandler';
 import Workspace from '../View/Workspace';
+import DataCollector from './DataCollector';
+import ResponseCollection from './ResponseCollection';
+import WorkspacePresenter from '../View/WorkspacePresenter';
 import WorkspaceModel from '../View/WorkspaceModel';
 
 export default class Controller {
     private workspaceInstance: Workspace | undefined;
 
     constructor(
-        private handlerList: Array<ControllerHandler>
+        private handlerList: Array<ControllerHandler>,
+        private dataCollector: DataCollector,
+        private presenter: WorkspacePresenter
     ) {
     }
 
@@ -24,7 +29,8 @@ export default class Controller {
     };
 
     private async presentData(): Promise<void> {
-        let model: WorkspaceModel = new WorkspaceModel();
+        const data: ResponseCollection = this.dataCollector.collectData();
+        const model: WorkspaceModel = this.presenter.present(data);
 
         if (this.workspaceInstance) this.workspaceInstance.model = model;
     }

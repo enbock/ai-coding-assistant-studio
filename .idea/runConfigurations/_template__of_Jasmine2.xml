@@ -2,9 +2,9 @@
   <configuration default="true" type="JavascriptTestRunnerJasmine" factoryName="JavascriptTestRunnerJasmine">
     <node-interpreter value="project" />
     <node-options value="-r ts-node/register -r ./jasmine/globalSetup" />
-    <working-dir value="$PROJECT_DIR$" />
+    <working-dir value="$PROJECT_DIR$/Frontend" />
     <jasmine-executable value="bin/jasmine.js" />
-    <jasmine-config value="$PROJECT_DIR$/jasmine/jasmine.json" />
+    <jasmine-config value="$PROJECT_DIR$/Frontend/jasmine/jasmine.json" />
     <scope value="ALL" />
     <envs />
     <method v="2" />
