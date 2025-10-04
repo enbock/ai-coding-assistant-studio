@@ -2,7 +2,6 @@ import NodeDragHandler from './NodeDragHandler';
 import Adapter from '../Adapter';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
 import {PresentDataCallback} from '../../../../ControllerHandler';
-import NodeMoveRequest from './NodeMoveRequest';
 import ScreenConfig from '../../../ScreenConfig';
 import createSpy = jasmine.createSpy;
 
@@ -31,9 +30,9 @@ describe('Application.Workspace.Controller.Handler.NodeDragHandler', function ()
 
     it('should start node movement', async function (): Promise<void> {
         await handler.initialize(presentData);
-        adapter.startNodeDrag();
+        adapter.startNodeDrag('test::id');
 
-        expect(nodeUseCase.startMovement).toHaveBeenCalled();
+        expect(nodeUseCase.startMovement).toHaveBeenCalledWith({nodeId: 'test::id'});
         expect(presentData).toHaveBeenCalled();
     });
 
@@ -49,10 +48,7 @@ describe('Application.Workspace.Controller.Handler.NodeDragHandler', function ()
         await handler.initialize(presentData);
         adapter.dragNode(300, 500);
 
-        const expectedRequest = new NodeMoveRequest();
-        expectedRequest.x = -0.5;
-        expectedRequest.y = 0.25;
-        expect(nodeUseCase.moveNode).toHaveBeenCalledWith(expectedRequest);
+        expect(nodeUseCase.moveNode).toHaveBeenCalledWith({x: -0.5, y: 0.25});
         expect(presentData).toHaveBeenCalled();
     });
 });

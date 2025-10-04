@@ -11,7 +11,7 @@ export default class WorkspacePresenter {
     public present(data: ResponseCollection): WorkspaceModel {
         const model: WorkspaceModel = new WorkspaceModel();
 
-        model.node = this.nodePresenter.present(data);
+        model.nodes = this.nodePresenter.present(data);
 
         return model;
     }

@@ -26,6 +26,7 @@ export default class Controller {
     // noinspection JSUnusedGlobalSymbols
     public setComponent(view: Workspace): void {
         this.workspaceInstance = view;
+        void this.presentData();
     };
 
     private async presentData(): Promise<void> {

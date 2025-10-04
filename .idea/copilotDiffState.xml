@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/Frontend/src/Application/Workspace/Controller/Adapter.ts">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/Frontend/src/Application/Workspace/Controller/Adapter.ts" />
+              <option name="originalContent" value="export default class Adapter {&#10;    public startNodeDrag: Callback&lt;(nodeId: string) =&gt; void&gt; = () =&gt; &lt;never&gt;false;&#10;    public stopNodeDrag: Callback = () =&gt; &lt;never&gt;false;&#10;    public dragNode: Callback&lt;(x: number, y: number) =&gt; void&gt; = () =&gt; &lt;never&gt;false;&#10;    public addNode: Callback = () =&gt; &lt;never&gt;false;&#10;}&#10;" />
+              <option name="updatedContent" value="export default class Adapter {&#10;    public startNodeDrag: Callback&lt;(nodeId: string) =&gt; void&gt; = () =&gt; &lt;never&gt;false;&#10;    public stopNodeDrag: Callback = () =&gt; &lt;never&gt;false;&#10;    public dragNode: Callback&lt;(x: number, y: number) =&gt; void&gt; = () =&gt; &lt;never&gt;false;&#10;    public addNode: Callback = () =&gt; &lt;never&gt;false;&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

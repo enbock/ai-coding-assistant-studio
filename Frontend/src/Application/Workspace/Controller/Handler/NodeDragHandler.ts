@@ -2,8 +2,9 @@ import Adapter from '../Adapter';
 import {PresentDataCallback} from '../../../../ControllerHandler';
 import ControllerHandler from '../../../../ControllerHandler';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
-import NodeMoveRequest from './NodeMoveRequest';
 import ScreenConfig from '../../../ScreenConfig';
+import NodeMoveRequest from '../../../../Core/Node/NodeUseCase/NodeMoveRequest';
+import {NodeId} from '../../../../Core/Node/NodeEntity';
 
 export default class NodeDragHandler implements ControllerHandler {
     constructor(
@@ -23,8 +24,8 @@ export default class NodeDragHandler implements ControllerHandler {
 
     private presentData: PresentDataCallback = () => false as never;
 
-    private handleStartNodeDrag(): void {
-        this.nodeUseCase.startMovement();
+    private handleStartNodeDrag(nodeId: string): void {
+        this.nodeUseCase.startMovement({nodeId: <NodeId>nodeId});
 
         void this.presentData();
     }
@@ -36,9 +37,10 @@ export default class NodeDragHandler implements ControllerHandler {
     }
 
     private handleDragNode(x: number, y: number): void {
-        const request: NodeMoveRequest = new NodeMoveRequest();
-        request.x = ((2.0 / this.screenConfig.width) * x) - 1.0;
-        request.y = ((2.0 / this.screenConfig.height) * y) - 1.0;
+        const request: NodeMoveRequest = {
+            x: ((2.0 / this.screenConfig.width) * x) - 1.0,
+            y: ((2.0 / this.screenConfig.height) * y) - 1.0
+        };
 
         this.nodeUseCase.moveNode(request);
 

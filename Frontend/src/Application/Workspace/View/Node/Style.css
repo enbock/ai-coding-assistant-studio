@@ -1,5 +1,11 @@
 @layer component {
     :host {
+        --position--left: 0;
+        --position--top: 0;
+    }
+
+    diagram-node {
+        display: block;
         border: 0.075rem solid gray;
         border-radius: 0.25rem;
         background-color: #fff;
@@ -7,5 +13,11 @@
         height: 3rem;
         position: absolute;
         cursor: move;
+        left: var(--position--left);
+        top: var(--position--top);
+
+        &[is-moving] {
+            z-index: 2;
+        }
     }
 }

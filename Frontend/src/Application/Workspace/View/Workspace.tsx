@@ -29,10 +29,13 @@ export default class Workspace extends Component<ComponentProperties> {
         return (
             <>
                 <style>{Style}</style>
-                <Node
-                    model={this.model.node}
-                    adapter={this.adapter}
-                />
+                <button onClick={() => this.adapter.addNode()}>AddNode</button>
+                {this.model.nodes.map(node => (
+                    <Node
+                        model={node}
+                        adapter={this.adapter}
+                    />
+                ))}
             </>
         );
     }

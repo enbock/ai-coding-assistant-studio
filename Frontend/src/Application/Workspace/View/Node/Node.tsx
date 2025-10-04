@@ -42,10 +42,16 @@ export default class Node extends Component<Properties> {
                 <style>
                     {Style}
                     :host {'{'}
-                    left: {model.x}px;
-                    top: {model.y}px;
+                    --position--left: {model.x}px;
+                    --position--top: {model.y}px;
                     {'}'}
                 </style>
+
+                <diagram-node
+                    {...(model.dragging ? {'is-moving': 'true'} : {})}
+                >
+
+                </diagram-node>
             </>
         );
     }
@@ -59,7 +65,7 @@ export default class Node extends Component<Properties> {
         window.addEventListener('mousemove', this.onMouseMoveHandler);
         window.addEventListener('mouseup', this.onMouseUpHandler);
 
-        this.props.adapter.startNodeDrag();
+        this.props.adapter.startNodeDrag(model.nodeId);
     }
 
     private onMouseMove(event: MouseEvent): void {

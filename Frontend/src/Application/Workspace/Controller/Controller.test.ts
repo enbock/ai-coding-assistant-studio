@@ -26,8 +26,6 @@ describe('Application.Workspace.Controller.Controller', function (): void {
             dataCollector,
             presenter
         );
-
-        controller.setComponent(workspaceInstance);
     });
 
     it(
@@ -44,10 +42,12 @@ describe('Application.Workspace.Controller.Controller', function (): void {
             workspaceInstance.model = <MockedObject>'test::oldModel';
 
             await controller.initialize();
+            controller.setComponent(workspaceInstance);
 
             expect(handler.initialize).toHaveBeenCalled();
             expect(dataCollector.collectData).toHaveBeenCalled();
             expect(presenter.present).toHaveBeenCalledWith(<MockedObject>'test::data');
+            expect(presenter.present).toHaveBeenCalledTimes(2);
             expect(workspaceInstance.model).toEqual(<MockedObject>'test::presentedModel');
         }
     );

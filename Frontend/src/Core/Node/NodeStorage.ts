@@ -1,11 +1,12 @@
-import PositionEntity from './PositionEntity';
+import NodeEntity from './NodeEntity';
+import {NodeId} from './NodeEntity';
 
 export default interface NodeStorage {
-    getMovementInProgress(): boolean;
+    getMovedNodeId(): NodeId;
 
-    setMovementInProgress(isMoving: boolean): void;
+    setMovedNodeId(isMoving: NodeId): void;
 
-    getPosition(): PositionEntity;
+    getNodes(): Array<NodeEntity>;
 
-    setPosition(position: PositionEntity): void;
+    setNodes(nodes: Array<NodeEntity>): void;
 }

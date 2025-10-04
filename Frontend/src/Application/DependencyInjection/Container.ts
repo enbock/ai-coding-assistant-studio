@@ -11,6 +11,9 @@ import WorkspacePresenter from '../Workspace/View/WorkspacePresenter';
 import NodePresenter from '../Workspace/View/Node/NodePresenter';
 import ScreenConfig from '../ScreenConfig';
 import ScreenConfigHandler from '../Workspace/Controller/Handler/ScreenConfigHandler';
+import NodeUseCaseNodeResponseFormatter from '../../Core/Node/NodeUseCase/Task/NodeResponseFormatter';
+import {v4} from 'uuid';
+import WorkspaceControllerNodeHandler from '../Workspace/Controller/Handler/NodeHandler';
 
 export class Container {
     public readonly workspaceController: WorkspaceController;
@@ -20,7 +23,9 @@ export class Container {
         const screenConfig: ScreenConfig = new ScreenConfig();
         const nodeStorage: NodeStorage = new NodeStorageMemory();
         const nodeUseCase: NodeUseCase = new NodeUseCase(
-            nodeStorage
+            nodeStorage,
+            new NodeUseCaseNodeResponseFormatter(),
+            v4
         );
         const nodeDragHandler: NodeDragHandler = new NodeDragHandler(
             this.workspaceAdapter,
@@ -31,10 +36,15 @@ export class Container {
             screenConfig,
             window
         );
+        const workspaceControllerNodeHandler: WorkspaceControllerNodeHandler = new WorkspaceControllerNodeHandler(
+            this.workspaceAdapter,
+            nodeUseCase
+        );
         this.workspaceController = new WorkspaceController(
             [
                 screenConfigHandler,
-                nodeDragHandler
+                nodeDragHandler,
+                workspaceControllerNodeHandler
             ],
             new DataCollector(
                 nodeUseCase

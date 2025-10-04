@@ -1,5 +1,5 @@
 import Memory from './Memory';
-import PositionEntity from '../../../../Core/Node/PositionEntity';
+import NodeEntity from '../../../../Core/Node/NodeEntity';
 
 describe('Infrastructure.Node.NodeStorage.Memory.Memory', function (): void {
     let memory: Memory;
@@ -8,27 +8,26 @@ describe('Infrastructure.Node.NodeStorage.Memory.Memory', function (): void {
         memory = new Memory();
     });
 
-    it('should return false for movement in progress by default', function (): void {
-        expect(memory.getMovementInProgress()).toBe(false);
+    it('should return default for moving node', function (): void {
+        expect(memory.getMovedNodeId()).toBe('');
     });
 
-    it('should set movement in progress', function (): void {
-        memory.setMovementInProgress(true);
+    it('should set node movement in progress', function (): void {
+        memory.setMovedNodeId('test::id');
 
-        expect(memory.getMovementInProgress()).toBe(true);
+        expect(memory.getMovedNodeId()).toBe('test::id');
     });
 
-    it('should return default position', function (): void {
-        expect(memory.getPosition()).toEqual(new PositionEntity());
+    it('should get nodes', function (): void {
+        expect(memory.getNodes()).toEqual([]);
     });
 
-    it('should set position', function (): void {
-        const position = new PositionEntity();
-        position.x = 1;
-        position.y = 2;
-
-        memory.setPosition(position);
-
-        expect(memory.getPosition()).toEqual(position);
+    it('should set nodes', function (): void {
+        const node: NodeEntity = new NodeEntity();
+        node.id = 'test::id';
+        node.x = 1;
+        node.y = 2;
+        memory.setNodes([node]);
+        expect(memory.getNodes()).toEqual([node]);
     });
 });

@@ -18,11 +18,11 @@ describe('WorkspacePresenter', function (): void {
         const data = new ResponseCollection();
         data.nodeResponse = <MockedObject>'test::nodeResponse';
 
-        nodePresenter.present.and.returnValue(<MockedObject>'test::nodeModel');
+        nodePresenter.present.and.returnValue(<MockedObject>'test::nodeModels');
 
         const result: WorkspaceModel = presenter.present(data);
 
         expect(nodePresenter.present).toHaveBeenCalledWith(data);
-        expect(result.node).toBe(<MockedObject>'test::nodeModel');
+        expect(result.nodes).toBe(<MockedObject>'test::nodeModels');
     });
 });

@@ -1,23 +1,24 @@
 import NodeStorage from '../../../../Core/Node/NodeStorage';
-import PositionEntity from '../../../../Core/Node/PositionEntity';
+import NodeEntity from '../../../../Core/Node/NodeEntity';
+import {NodeId} from '../../../../Core/Node/NodeEntity';
 
 export default class Memory implements NodeStorage {
-    private isMoving: boolean = false;
-    private position: PositionEntity = new PositionEntity();
+    private movingNodeId: string = '';
+    private nodes: Array<NodeEntity> = [];
 
-    public getMovementInProgress(): boolean {
-        return this.isMoving;
+    public getMovedNodeId(): NodeId {
+        return this.movingNodeId;
     }
 
-    public setMovementInProgress(isMoving: boolean): void {
-        this.isMoving = isMoving;
+    public setMovedNodeId(isMoving: NodeId): void {
+        this.movingNodeId = isMoving;
     }
 
-    public getPosition(): PositionEntity {
-        return this.position;
+    public getNodes(): Array<NodeEntity> {
+        return this.nodes;
     }
 
-    public setPosition(position: PositionEntity): void {
-        this.position = position;
+    public setNodes(nodes: Array<NodeEntity>): void {
+        this.nodes = nodes;
     }
 }

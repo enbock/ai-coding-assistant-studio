@@ -1,6 +1,6 @@
 import NodeModel from './NodeModel';
 import ResponseCollection from '../../Controller/ResponseCollection';
-import NodeResponse from '../../../../Core/Node/NodeUseCase/NodeResponse';
+import {NodeItem} from '../../../../Core/Node/NodeUseCase/NodeResponse';
 import ScreenConfig from '../../../ScreenConfig';
 
 export default class NodePresenter {
@@ -9,13 +9,17 @@ export default class NodePresenter {
     ) {
     }
 
-    public present(data: ResponseCollection): NodeModel {
-        const model: NodeModel = new NodeModel();
-        const nodeResponse: NodeResponse = data.nodeResponse;
+    public present(data: ResponseCollection): Array<NodeModel> {
+        return data.nodeResponse.nodes.map((node) => this.presentNode(node));
+    }
 
-        model.dragging = nodeResponse.isMoving == true;
-        model.x = Math.round((this.screenConfig.width / 2.0) * (nodeResponse.x + 1.0));
-        model.y = Math.round((this.screenConfig.height / 2.0) * (nodeResponse.y + 1.0));
+    public presentNode(item: NodeItem): NodeModel {
+        const model: NodeModel = new NodeModel();
+
+        model.nodeId = item.nodeId;
+        model.dragging = item.isMoving == true;
+        model.x = Math.round((this.screenConfig.width / 2.0) * (item.x + 1.0));
+        model.y = Math.round((this.screenConfig.height / 2.0) * (item.y + 1.0));
 
         return model;
     }

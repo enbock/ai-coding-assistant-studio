@@ -1,38 +1,58 @@
 import NodeMoveRequest from './NodeMoveRequest';
 import NodeStorage from '../NodeStorage';
-import PositionEntity from '../PositionEntity';
+import NodeEntity from '../NodeEntity';
+import {NodeId} from '../NodeEntity';
 import NodeResponse from './NodeResponse';
+import NodeResponseFormatter from './Task/NodeResponseFormatter';
+import MovementStartRequest from './MovementStartRequest';
+import {v4} from 'uuid';
 
 export default class NodeUseCase {
     constructor(
-        private nodeStorage: NodeStorage
+        private nodeStorage: NodeStorage,
+        private nodeResponseFormatter: NodeResponseFormatter,
+        private generateUuid: typeof v4
     ) {
     }
 
     public getState(): NodeResponse {
-        const position: PositionEntity = this.nodeStorage.getPosition();
+        const positions: Array<NodeEntity> = this.nodeStorage.getNodes();
         const response: NodeResponse = new NodeResponse();
 
-        response.x = position.x;
-        response.y = position.y;
-        response.isMoving = this.nodeStorage.getMovementInProgress();
+        response.nodes = this.nodeResponseFormatter.formatPositions(
+            positions,
+            this.nodeStorage.getMovedNodeId()
+        );
 
         return response;
     }
 
-    public startMovement(): void {
-        this.nodeStorage.setMovementInProgress(true);
+    public startMovement(request: MovementStartRequest): void {
+        this.nodeStorage.setMovedNodeId(request.nodeId);
     }
 
     public stopMovement(): void {
-        this.nodeStorage.setMovementInProgress(false);
+        this.nodeStorage.setMovedNodeId('');
     }
 
     public moveNode(request: NodeMoveRequest): void {
-        const position: PositionEntity = new PositionEntity();
-        position.x = request.x;
-        position.y = request.y;
+        const movingNode: NodeId = this.nodeStorage.getMovedNodeId();
+        const nodes: Array<NodeEntity> = this.nodeStorage.getNodes();
+        const node: NodeEntity | undefined = nodes.find((n) => n.id === movingNode);
 
-        this.nodeStorage.setPosition(position);
+        if (!node) return;
+
+        node.x = request.x;
+        node.y = request.y;
+
+        this.nodeStorage.setNodes(nodes);
+    }
+
+    public addNode(): void {
+        const nodes: Array<NodeEntity> = this.nodeStorage.getNodes();
+        const node: NodeEntity = new NodeEntity();
+        node.id = this.generateUuid();
+        nodes.push(node);
+        this.nodeStorage.setNodes(nodes);
     }
 }
