@@ -4,7 +4,7 @@ import NodeStorage from '../NodeStorage';
 import PositionEntity from '../PositionEntity';
 import NodeResponse from './NodeResponse';
 
-describe('NodeUseCase', function (): void {
+describe('Core.Node.NodeUseCase.NodeUseCase', function (): void {
     let nodeStorage: Mocked<NodeStorage>,
         useCase: NodeUseCase;
 
@@ -15,11 +15,6 @@ describe('NodeUseCase', function (): void {
     });
 
     it('should get current state', async function (): Promise<void> {
-        const nodeResponse: NodeResponse = {
-            x: 0,
-            y: 0,
-            isMoving: false
-        };
         const position: PositionEntity = new PositionEntity();
         position.x = 1;
         position.y = -2;
@@ -27,7 +22,7 @@ describe('NodeUseCase', function (): void {
         nodeStorage.getPosition.and.returnValue(position);
         nodeStorage.getMovementInProgress.and.returnValue(true);
 
-        useCase.getState(nodeResponse);
+        const nodeResponse: NodeResponse = useCase.getState();
 
         expect(nodeResponse.x).toBe(1);
         expect(nodeResponse.y).toBe(-2);

@@ -1,2 +1,5 @@
 node_modules/
 build/
+frontend/.testBuild/
+.github/copilot-instructions.md
+/.idea/copilot.*

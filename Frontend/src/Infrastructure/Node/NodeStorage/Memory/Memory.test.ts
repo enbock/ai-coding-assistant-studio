@@ -1,7 +1,7 @@
 import Memory from './Memory';
 import PositionEntity from '../../../../Core/Node/PositionEntity';
 
-describe('Memory', function (): void {
+describe('Infrastructure.Node.NodeStorage.Memory.Memory', function (): void {
     let memory: Memory;
 
     beforeEach(function (): void {

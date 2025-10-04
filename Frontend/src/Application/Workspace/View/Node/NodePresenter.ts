@@ -1,6 +1,6 @@
 import NodeModel from './NodeModel';
 import ResponseCollection from '../../Controller/ResponseCollection';
-import NodeResponse from '../../Controller/NodeResponse';
+import NodeResponse from '../../../../Core/Node/NodeUseCase/NodeResponse';
 import ScreenConfig from '../../../ScreenConfig';
 
 export default class NodePresenter {

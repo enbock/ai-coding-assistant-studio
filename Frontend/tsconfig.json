@@ -14,7 +14,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": false,
-    "outDir": "./build/",
+    "outDir": "./.testBuild/",
     "noImplicitAny": true,
     "moduleResolution": "node",
     "sourceRoot": "src",

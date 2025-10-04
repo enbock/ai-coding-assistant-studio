@@ -5,7 +5,7 @@ import Workspace from '../View/Workspace';
 import DataCollector from './DataCollector';
 import WorkspacePresenter from '../View/WorkspacePresenter';
 
-describe('Controller', function (): void {
+describe('Application.Workspace.Controller.Controller', function (): void {
     let controller: Controller,
         handler: Mocked<ControllerHandler>,
         workspaceInstance: Mocked<Workspace>,

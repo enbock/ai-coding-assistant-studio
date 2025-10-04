@@ -9,14 +9,15 @@ export default class NodeUseCase {
     ) {
     }
 
-    public getState(nodeResponse: NodeResponse): void {
+    public getState(): NodeResponse {
         const position: PositionEntity = this.nodeStorage.getPosition();
+        const response: NodeResponse = new NodeResponse();
 
-        nodeResponse.x = position.x;
-        nodeResponse.y = position.y;
-        nodeResponse.isMoving = this.nodeStorage.getMovementInProgress();
+        response.x = position.x;
+        response.y = position.y;
+        response.isMoving = this.nodeStorage.getMovementInProgress();
 
-        console.log(position);
+        return response;
     }
 
     public startMovement(): void {

@@ -6,7 +6,7 @@ import NodeMoveRequest from './NodeMoveRequest';
 import ScreenConfig from '../../../ScreenConfig';
 import createSpy = jasmine.createSpy;
 
-describe('NodeDragHandler', function (): void {
+describe('Application.Workspace.Controller.Handler.NodeDragHandler', function (): void {
     let handler: NodeDragHandler,
         adapter: Mocked<Adapter>,
         nodeUseCase: Mocked<NodeUseCase>,

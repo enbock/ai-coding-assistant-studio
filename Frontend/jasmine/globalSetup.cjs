@@ -5,22 +5,21 @@
 process.env.NODE_ENV = 'testing';
 process.env.TZ = 'Europe/Berlin';
 
-import * as jsdom from 'jsdom';
-import 'jsdom';
+const jsdom = require('jsdom');
 
-global.window = new jsdom.JSDOM().window as any;
+// noinspection JSUnresolvedReference
+global.window = new jsdom.JSDOM().window;
 global.document = window.document;
 global.HTMLElement = window.HTMLElement;
 global.customElements = window.customElements;
 global.MouseEvent = window.MouseEvent;
 
-require('./extendModuleHook')();
-require('./mock');
-require('./mockModule');
+require('./mock.cjs');
+require('./mockModule.cjs');
 
 // @ts-ignore
 global.Storage = class {
-    length: number = 0;
+    length = 0;
 
     setItem() {
     };

@@ -1,7 +1,7 @@
 import ScreenConfigHandler from './ScreenConfigHandler';
 import ScreenConfig from '../../../ScreenConfig';
 
-describe('ScreenConfigHandler', function (): void {
+describe('Application.Workspace.Controller.Handler.ScreenConfigHandler', function (): void {
     let handler: ScreenConfigHandler,
         window: Mocked<any>,
         screenConfig: ScreenConfig

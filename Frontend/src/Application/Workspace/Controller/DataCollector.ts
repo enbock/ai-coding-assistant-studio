@@ -10,7 +10,7 @@ export default class DataCollector {
     public collectData(): ResponseCollection {
         const responseCollection: ResponseCollection = new ResponseCollection();
 
-        this.nodeUseCase.getState(responseCollection.nodeResponse);
+        responseCollection.nodeResponse = this.nodeUseCase.getState();
 
         return responseCollection;
     }

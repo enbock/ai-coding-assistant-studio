@@ -6,7 +6,9 @@
   "scripts": {
     "start": "webpack serve --open --mode development --no-open --no-hot --stats-error-details",
     "build": "webpack --mode production",
-    "test": "ts-node -r ./jasmine/globalSetup ./node_modules/jasmine/bin/jasmine.js --config=jasmine/jasmine.json"
+    "test:compile": "tsc -p .",
+    "test:watch": "tsc -p . --watch",
+    "test": "node -r ./jasmine/globalSetup.cjs ./node_modules/jasmine/bin/jasmine.js --config=jasmine/jasmine.json"
   },
   "repository": {
     "type": "git",
