@@ -1,5 +1,5 @@
-import ControllerHandler from '../../../../ControllerHandler';
-import {PresentDataCallback} from '../../../../ControllerHandler';
+import ControllerHandler from '../../../ControllerHandler';
+import {RefreshContentCallback} from '../../../ControllerHandler';
 import Adapter from '../Adapter';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
 
@@ -10,12 +10,12 @@ export default class NodeHandler implements ControllerHandler {
     ) {
     }
 
-    public async initialize(presentData: PresentDataCallback): Promise<void> {
+    public async initialize(presentData: RefreshContentCallback): Promise<void> {
         this.presentData = presentData;
         this.adapter.addNode = this.handleAddNode.bind(this);
     }
 
-    private presentData: PresentDataCallback = () => false as never;
+    private presentData: RefreshContentCallback = () => false as never;
 
     private handleAddNode(): void {
         this.nodeUseCase.addNode();

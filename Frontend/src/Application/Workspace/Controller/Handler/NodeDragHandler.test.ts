@@ -1,7 +1,7 @@
 import NodeDragHandler from './NodeDragHandler';
 import Adapter from '../Adapter';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
-import {PresentDataCallback} from '../../../../ControllerHandler';
+import {RefreshContentCallback} from '../../../ControllerHandler';
 import ScreenConfig from '../../../ScreenConfig';
 import createSpy = jasmine.createSpy;
 
@@ -9,7 +9,7 @@ describe('Application.Workspace.Controller.Handler.NodeDragHandler', function ()
     let handler: NodeDragHandler,
         adapter: Mocked<Adapter>,
         nodeUseCase: Mocked<NodeUseCase>,
-        presentData: PresentDataCallback,
+        presentData: RefreshContentCallback,
         screenConfig: ScreenConfig
     ;
 

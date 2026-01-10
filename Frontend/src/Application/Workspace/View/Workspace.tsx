@@ -5,8 +5,9 @@ import Style from './Style.css';
 import WorkspaceModel from './WorkspaceModel';
 import Node from './Node/Node';
 import Adapter from '../Controller/Adapter';
+import RootView from '../../RootView';
 
-export default class Workspace extends Component<ComponentProperties> {
+export default class Workspace extends Component<ComponentProperties> implements RootView {
     public modelInstance: WorkspaceModel = new WorkspaceModel();
 
     public get model(): WorkspaceModel {

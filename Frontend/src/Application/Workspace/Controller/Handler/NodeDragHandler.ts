@@ -1,6 +1,6 @@
 import Adapter from '../Adapter';
-import {PresentDataCallback} from '../../../../ControllerHandler';
-import ControllerHandler from '../../../../ControllerHandler';
+import {RefreshContentCallback} from '../../../ControllerHandler';
+import ControllerHandler from '../../../ControllerHandler';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
 import ScreenConfig from '../../../ScreenConfig';
 import NodeMoveRequest from '../../../../Core/Node/NodeUseCase/NodeMoveRequest';
@@ -14,26 +14,26 @@ export default class NodeDragHandler implements ControllerHandler {
     ) {
     }
 
-    public async initialize(presentData: PresentDataCallback): Promise<void> {
-        this.presentData = presentData;
+    public async initialize(refreshContent: RefreshContentCallback): Promise<void> {
+        this.refreshContent = refreshContent;
 
         this.adapter.startNodeDrag = this.handleStartNodeDrag.bind(this);
         this.adapter.stopNodeDrag = this.handleStopNodeDrag.bind(this);
         this.adapter.dragNode = this.handleDragNode.bind(this);
     }
 
-    private presentData: PresentDataCallback = () => false as never;
+    private refreshContent: RefreshContentCallback = () => false as never;
 
     private handleStartNodeDrag(nodeId: string): void {
         this.nodeUseCase.startMovement({nodeId: <NodeId>nodeId});
 
-        void this.presentData();
+        void this.refreshContent();
     }
 
     private handleStopNodeDrag(): void {
         this.nodeUseCase.stopMovement();
 
-        void this.presentData();
+        void this.refreshContent();
     }
 
     private handleDragNode(x: number, y: number): void {
@@ -44,6 +44,6 @@ export default class NodeDragHandler implements ControllerHandler {
 
         this.nodeUseCase.moveNode(request);
 
-        void this.presentData();
+        void this.refreshContent();
     }
 }

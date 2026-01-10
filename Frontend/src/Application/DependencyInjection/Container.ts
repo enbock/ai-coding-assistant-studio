@@ -14,12 +14,20 @@ import ScreenConfigHandler from '../Workspace/Controller/Handler/ScreenConfigHan
 import NodeUseCaseNodeResponseFormatter from '../../Core/Node/NodeUseCase/Task/NodeResponseFormatter';
 import {v4} from 'uuid';
 import WorkspaceControllerNodeHandler from '../Workspace/Controller/Handler/NodeHandler';
+import StudioController from '../Studio/Controller/Controller';
+import StudioAdapter from '../Studio/Controller/Adapter';
+import Studio from '../Studio/View/Studio';
+import StudioControllerContentRegistry from '../Studio/Controller/ContentRegistry';
+import StudioPresenter from '../Studio/View/StudioPresenter';
+import Content from '../Studio/Content';
 
 export class Container {
+    public readonly studioController: StudioController;
     public readonly workspaceController: WorkspaceController;
-    public readonly workspaceAdapter: WorkspaceAdapter = new WorkspaceAdapter();
 
     constructor() {
+        const studioAdapter: StudioAdapter = new StudioAdapter();
+        const workspaceAdapter: WorkspaceAdapter = new WorkspaceAdapter();
         const screenConfig: ScreenConfig = new ScreenConfig();
         const nodeStorage: NodeStorage = new NodeStorageMemory();
         const nodeUseCase: NodeUseCase = new NodeUseCase(
@@ -28,7 +36,7 @@ export class Container {
             v4
         );
         const nodeDragHandler: NodeDragHandler = new NodeDragHandler(
-            this.workspaceAdapter,
+            workspaceAdapter,
             nodeUseCase,
             screenConfig
         );
@@ -37,7 +45,7 @@ export class Container {
             window
         );
         const workspaceControllerNodeHandler: WorkspaceControllerNodeHandler = new WorkspaceControllerNodeHandler(
-            this.workspaceAdapter,
+            workspaceAdapter,
             nodeUseCase
         );
         this.workspaceController = new WorkspaceController(
@@ -56,7 +64,20 @@ export class Container {
             )
         );
 
-        ViewInjection(Workspace, this.workspaceAdapter);
+        const contentRegistry: StudioControllerContentRegistry = new StudioControllerContentRegistry();
+        contentRegistry.registerContent(Content.Workspace, Workspace);
+
+        this.studioController = new StudioController(
+            studioAdapter,
+            new StudioPresenter(
+                contentRegistry
+            )
+        );
+
+        ViewInjection(Studio, studioAdapter);
+        Studio.componentReceiver = this.studioController;
+
+        ViewInjection(Workspace, workspaceAdapter);
         Workspace.componentReceiver = this.workspaceController;
     }
 }

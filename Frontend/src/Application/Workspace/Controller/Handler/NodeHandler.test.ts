@@ -1,13 +1,13 @@
 import NodeHandler from './NodeHandler';
 import Adapter from '../Adapter';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
-import {PresentDataCallback} from '../../../../ControllerHandler';
+import {RefreshContentCallback} from '../../../ControllerHandler';
 import createSpy = jasmine.createSpy;
 
 describe('Application.Workspace.Controller.Handler.NodeHandler', function (): void {
     let adapter: Mocked<Adapter>,
         nodeUseCase: Mocked<NodeUseCase>,
-        presentData: PresentDataCallback,
+        presentData: RefreshContentCallback,
         handler: NodeHandler;
 
     beforeEach(function (): void {

@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="DependencyInjections" pattern="file[ai-coding-assistant-studio]:*/DependencyInjection//*||file[ai-coding-assistant-studio]:*/DependencyInjection/*" />
+</component>

@@ -1,6 +1,6 @@
 import Controller from './Controller';
-import ControllerHandler from '../../../ControllerHandler';
-import {PresentDataCallback} from '../../../ControllerHandler';
+import ControllerHandler from '../../ControllerHandler';
+import {RefreshContentCallback} from '../../ControllerHandler';
 import Workspace from '../View/Workspace';
 import DataCollector from './DataCollector';
 import WorkspacePresenter from '../View/WorkspacePresenter';
@@ -32,7 +32,7 @@ describe('Application.Workspace.Controller.Controller', function (): void {
         'should initialize the workspace controller and create a new model in presenting of data',
         async function (): Promise<void> {
             handler.initialize.and.callFake(
-                async function (presentData: PresentDataCallback): Promise<void> {
+                async function (presentData: RefreshContentCallback): Promise<void> {
                     await presentData();
                 }
             );

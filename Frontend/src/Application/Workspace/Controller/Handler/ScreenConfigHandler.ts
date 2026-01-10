@@ -1,4 +1,4 @@
-import ControllerHandler from '../../../../ControllerHandler';
+import ControllerHandler from '../../../ControllerHandler';
 import ScreenConfig from '../../../ScreenConfig';
 
 export default class ScreenConfigHandler implements ControllerHandler {
