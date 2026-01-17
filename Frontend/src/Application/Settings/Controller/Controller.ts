@@ -1,38 +1,40 @@
 import ControllerHandler from '../../ControllerHandler';
 import {RefreshContentCallback} from '../../ControllerHandler';
-import Workspace from '../View/Workspace';
+import Settings from '../View/Settings';
 import DataCollector from './DataCollector';
 import ResponseCollection from './ResponseCollection';
-import WorkspacePresenter from '../View/WorkspacePresenter';
-import WorkspaceModel from '../View/WorkspaceModel';
+import SettingsPresenter from '../View/SettingsPresenter';
+import SettingsModel from '../View/SettingsModel';
 
 export default class Controller {
-    private workspaceInstance: Workspace | undefined;
+    private settingsInstance: Settings | undefined;
 
     constructor(
         private handlerList: Array<ControllerHandler>,
         private dataCollector: DataCollector,
-        private presenter: WorkspacePresenter
+        private presenter: SettingsPresenter
     ) {
     }
 
     public async initialize(): Promise<void> {
-        const presentData: RefreshContentCallback = () => this.refreshContent();
+        const refreshContent: RefreshContentCallback = () => this.refreshContent();
+
         for (const handler of this.handlerList) {
-            await handler.initialize(presentData);
+            await handler.initialize(refreshContent);
         }
+
+        void this.refreshContent();
     }
 
-    // noinspection JSUnusedGlobalSymbols
-    public setComponent(view: Workspace): void {
-        this.workspaceInstance = view;
+    public setComponent(view: Settings): void {
+        this.settingsInstance = view;
         void this.refreshContent();
-    };
+    }
 
     private async refreshContent(): Promise<void> {
         const data: ResponseCollection = this.dataCollector.collectData();
-        const model: WorkspaceModel = this.presenter.present(data);
+        const model: SettingsModel = this.presenter.present(data);
 
-        if (this.workspaceInstance) this.workspaceInstance.model = model;
+        if (this.settingsInstance) this.settingsInstance.model = model;
     }
 }

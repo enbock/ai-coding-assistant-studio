@@ -20,7 +20,7 @@ describe('Application.Studio.Controller.Controller', function (): void {
         );
     });
 
-    it('should set component and refresh content with workspace', async function (): Promise<void> {
+    it('should set component and refresh content', async function (): Promise<void> {
         const studioView: Mocked<Studio> = mock<Studio>();
         const model: StudioModel = new StudioModel();
         model.view = <MockedObject>'test::view-component';
@@ -29,7 +29,7 @@ describe('Application.Studio.Controller.Controller', function (): void {
 
         controller.setComponent(studioView);
 
-        expect(studioPresenter.present).toHaveBeenCalledWith(Content.Workspace);
+        expect(studioPresenter.present).toHaveBeenCalledWith(Content.Empty);
         expect(studioView.model).toBe(model);
     });
 

@@ -20,20 +20,39 @@ import Studio from '../Studio/View/Studio';
 import StudioControllerContentRegistry from '../Studio/Controller/ContentRegistry';
 import StudioPresenter from '../Studio/View/StudioPresenter';
 import Content from '../Studio/Content';
+import SettingsController from '../Settings/Controller/Controller';
+import Settings from '../Settings/View/Settings';
+import SettingsAdapter from '../Settings/Controller/Adapter';
+import SettingsUseCase from '../../Core/Settings/SettingsUseCase/SettingsUseCase';
+import SettingsStorageMemory from '../../Infrastructure/Settings/SettingsStorage/Memory/Memory';
+import SettingsStorage from '../../Core/Settings/SettingsStorage';
+import SettingsClientLocalStorage from '../../Infrastructure/Settings/SettingsClient/LocalStorage/LocalStorage';
+import SettingsClient from '../../Core/Settings/SettingsClient';
+import SettingsDataCollector from '../Settings/Controller/DataCollector';
+import SettingsPresenter from '../Settings/View/SettingsPresenter';
+import SettingsHandler from '../Settings/Controller/Handler/SettingsHandler';
 
 export class Container {
     public readonly studioController: StudioController;
     public readonly workspaceController: WorkspaceController;
+    public readonly settingsController: SettingsController;
 
     constructor() {
         const studioAdapter: StudioAdapter = new StudioAdapter();
         const workspaceAdapter: WorkspaceAdapter = new WorkspaceAdapter();
+        const settingsAdapter: SettingsAdapter = new SettingsAdapter();
         const screenConfig: ScreenConfig = new ScreenConfig();
         const nodeStorage: NodeStorage = new NodeStorageMemory();
+        const settingsStorage: SettingsStorage = new SettingsStorageMemory();
+        const settingsClient: SettingsClient = new SettingsClientLocalStorage();
         const nodeUseCase: NodeUseCase = new NodeUseCase(
             nodeStorage,
             new NodeUseCaseNodeResponseFormatter(),
             v4
+        );
+        const settingsUseCase: SettingsUseCase = new SettingsUseCase(
+            settingsStorage,
+            settingsClient
         );
         const nodeDragHandler: NodeDragHandler = new NodeDragHandler(
             workspaceAdapter,
@@ -64,8 +83,23 @@ export class Container {
             )
         );
 
+        const workingDirectoryHandler: SettingsHandler = new SettingsHandler(
+            settingsAdapter,
+            settingsUseCase
+        );
+        this.settingsController = new SettingsController(
+            [
+                workingDirectoryHandler
+            ],
+            new SettingsDataCollector(
+                settingsUseCase
+            ),
+            new SettingsPresenter()
+        );
+
         const contentRegistry: StudioControllerContentRegistry = new StudioControllerContentRegistry();
         contentRegistry.registerContent(Content.Workspace, Workspace);
+        contentRegistry.registerContent(Content.Settings, Settings);
 
         this.studioController = new StudioController(
             studioAdapter,
@@ -79,6 +113,9 @@ export class Container {
 
         ViewInjection(Workspace, workspaceAdapter);
         Workspace.componentReceiver = this.workspaceController;
+
+        ViewInjection(Settings, settingsAdapter);
+        Settings.componentReceiver = this.settingsController;
     }
 }
 

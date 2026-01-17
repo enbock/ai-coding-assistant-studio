@@ -8,6 +8,7 @@ function start(): void {
 
     void container.workspaceController.initialize();
     void container.studioController.initialize();
+    void container.settingsController.initialize();
 
     const node: HTMLElement = ShadowRenderer.render(<Studio/>);
     document.body.appendChild(node);

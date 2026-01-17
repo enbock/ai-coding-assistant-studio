@@ -2,9 +2,8 @@ import Studio from '../View/Studio';
 import Adapter from './Adapter';
 import StudioPresenter from '../View/StudioPresenter';
 import Content from '../Content';
-import Base from '../../Controller';
 
-export default class Controller implements Base {
+export default class Controller {
     private studioInstance: Studio | undefined;
 
     constructor(
@@ -15,12 +14,12 @@ export default class Controller implements Base {
 
     public async initialize(): Promise<void> {
         this.adapter.navigateToContent = (contentId: number) => this.handleNavigateToContent(contentId);
-        await this.refreshContent(Content.Workspace);
+        await this.refreshContent(Content.Empty);
     }
 
     public setComponent(view: Studio): void {
         this.studioInstance = view;
-        void this.refreshContent(Content.Workspace);
+        void this.refreshContent(Content.Empty);
     }
 
     private handleNavigateToContent(contentId: number): void {

@@ -1,6 +1,7 @@
 enum Content {
     Empty,
-    Workspace
+    Workspace,
+    Settings
 }
 
 export default Content;
