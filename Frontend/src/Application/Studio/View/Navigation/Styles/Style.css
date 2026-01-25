@@ -1,0 +1,89 @@
+@layer component {
+    :host {
+        --nav__bg: #f0f0f0;
+        --nav__bg--hover: #e0e0e0;
+        --nav__bg--active: #d0d0d0;
+        --nav__border-color: #d0d0d0;
+        --nav__border-color--hover: #b0b0b0;
+        --nav__border-color--active: #a0a0a0;
+        --nav__border-width: 0.125rem;
+        --nav__border-radius: 0.25rem;
+        --nav__transition: 0.2s ease;
+        --nav__icon-color: brightness(1) saturate(0);
+        --nav__icon-color--hover: brightness(0);
+        --nav__item-size: 6rem;
+        --nav__icon-size: 80%;
+        --nav__gap: 8px;
+
+        display: block;
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            margin: 0;
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                display: flex;
+                flex-direction: column;
+                gap: var(--nav__gap);
+
+                li {
+                    display: block;
+
+                    a {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: var(--nav__item-size);
+                        height: var(--nav__item-size);
+                        background-color: var(--nav__bg);
+                        border: var(--nav__border-width) solid var(--nav__border-color);
+                        border-radius: var(--nav__border-radius);
+                        cursor: pointer;
+                        transition: background-color var(--nav__transition), border-color var(--nav__transition);
+                        text-decoration: none;
+
+                        nav-icon {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: var(--nav__icon-size);
+                            height: var(--nav__icon-size);
+                            background-repeat: no-repeat;
+                            background-position: center;
+                            background-size: contain;
+                            filter: var(--nav__icon-color);
+                            transition: filter var(--nav__transition);
+
+                            &[image="settings"] {
+                                background-image: url('./Settings.svg');
+                            }
+
+                            &[image="workspace"] {
+                                background-image: url('./Workspace.svg');
+                            }
+                        }
+
+                        &:hover {
+                            background-color: var(--nav__bg--hover);
+                            border-color: var(--nav__border-color--hover);
+
+                            nav-icon {
+                                filter: var(--nav__icon-color--hover);
+                            }
+                        }
+
+                        &:active {
+                            background-color: var(--nav__bg--active);
+                            border-color: var(--nav__border-color--active);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

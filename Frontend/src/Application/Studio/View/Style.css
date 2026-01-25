@@ -1,0 +1,8 @@
+@layer component {
+    :host {
+        height: 100%;
+
+        display: grid;
+        grid-template-columns: auto 1fr;
+    }
+}
