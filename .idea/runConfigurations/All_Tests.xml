@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All Tests" type="NodeJsTestRunner" focusToolWindowBeforeRun="true">
+    <node-interpreter value="project" />
+    <node-options value="--import ./test/globalSetup.cjs" />
+    <working-dir value="$PROJECT_DIR$/Frontend" />
+    <language value="JAVA_SCRIPT" />
+    <typescript-loader value="MANUAL_SETUP_IN_NODE_OPTION" />
+    <envs />
+    <scope-kind value="DIRECTORY" />
+    <test-directory value="$PROJECT_DIR$/Frontend/.testBuild" />
+    <method v="2" />
+  </configuration>
+</component>

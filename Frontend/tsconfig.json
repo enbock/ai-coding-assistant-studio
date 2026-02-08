@@ -26,12 +26,12 @@
     ],
     "types": [
       "node",
-      "jasmine"
+      "test"
     ],
     "typeRoots": [
       "node_modules/@types",
       "./src",
-      "./jasmine"
+      "./test"
     ]
   },
   "include": [

@@ -1,3 +1,6 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {mock} from '../../../../test/mock';
 import DataCollector from './DataCollector';
 import SettingsUseCase from '../../../Core/Settings/SettingsUseCase/SettingsUseCase';
 import ResponseCollection from './ResponseCollection';
@@ -20,7 +23,9 @@ describe('Application.Settings.Controller.DataCollector', function (): void {
 
         const result: ResponseCollection = dataCollector.collectData();
 
-        expect(settingsUseCase.getSettings).toHaveBeenCalled();
-        expect(result.workingDirectory).toBe('test::working-directory');
+        assert.strictEqual(settingsUseCase.getSettings.mock.calls.length, 1);
+        assert.strictEqual(result.workingDirectory, 'test::working-directory');
     });
 });
+
+

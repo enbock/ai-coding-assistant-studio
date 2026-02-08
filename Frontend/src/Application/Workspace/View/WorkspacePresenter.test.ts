@@ -1,3 +1,6 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {mock} from '../../../../test/mock';
 import ResponseCollection from '../Controller/ResponseCollection';
 import WorkspaceModel from './WorkspaceModel';
 import NodePresenter from './Node/NodePresenter';
@@ -22,7 +25,10 @@ describe('WorkspacePresenter', function (): void {
 
         const result: WorkspaceModel = presenter.present(data);
 
-        expect(nodePresenter.present).toHaveBeenCalledWith(data);
-        expect(result.nodes).toBe(<MockedObject>'test::nodeModels');
+        assert.strictEqual(nodePresenter.present.mock.calls.length, 1);
+        assert.deepStrictEqual(nodePresenter.present.mock.calls[0].arguments[0], data);
+        assert.strictEqual(result.nodes, <MockedObject>'test::nodeModels');
     });
 });
+
+

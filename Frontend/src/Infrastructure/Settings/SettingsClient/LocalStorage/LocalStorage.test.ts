@@ -1,25 +1,24 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {mock} from '../../../../../test/mock';
 import LocalStorage from './LocalStorage';
 import SettingsEntity from '../../../../Core/Settings/SettingsEntity';
 
 describe('Infrastructure.Settings.SettingsClient.LocalStorage.LocalStorage', function (): void {
     let localStorage: LocalStorage,
         mockStorage: { [key: string]: string },
-        mockLocalStorage: Storage;
+        mockLocalStorage: Mocked<Storage>;
 
     beforeEach(function (): void {
         mockStorage = {};
 
-        mockLocalStorage = <Storage>{
-            getItem: function (key: string): string | null {
-                return mockStorage[key] || null;
-            },
-            setItem: function (key: string, value: string): void {
-                mockStorage[key] = value;
-            }
-        };
-
-        spyOn(mockLocalStorage, 'getItem').and.callThrough();
-        spyOn(mockLocalStorage, 'setItem').and.callThrough();
+        mockLocalStorage = mock<Storage>();
+        mockLocalStorage.getItem.and.callFake(function (key: string): string | null {
+            return mockStorage[key] || null;
+        });
+        mockLocalStorage.setItem.and.callFake(function (key: string, value: string): void {
+            mockStorage[key] = value;
+        });
 
         Object.defineProperty(window, 'localStorage', {
             value: mockLocalStorage,
@@ -33,8 +32,9 @@ describe('Infrastructure.Settings.SettingsClient.LocalStorage.LocalStorage', fun
     it('should load default settings when storage is empty', async function (): Promise<void> {
         const settings: SettingsEntity = await localStorage.loadSettings();
 
-        expect(settings.workingDirectory).toBe('');
-        expect(mockLocalStorage.getItem).toHaveBeenCalledWith('settings');
+        assert.strictEqual(settings.workingDirectory, '');
+        assert.strictEqual(mockLocalStorage.getItem.mock.calls.length, 1);
+        assert.strictEqual(mockLocalStorage.getItem.mock.calls[0].arguments[0], 'settings');
     });
 
     it('should load settings from storage', async function (): Promise<void> {
@@ -44,7 +44,7 @@ describe('Infrastructure.Settings.SettingsClient.LocalStorage.LocalStorage', fun
 
         const settings: SettingsEntity = await localStorage.loadSettings();
 
-        expect(settings.workingDirectory).toBe('test::workingDirectory');
+        assert.strictEqual(settings.workingDirectory, 'test::workingDirectory');
     });
 
     it('should update settings in storage', async function (): Promise<void> {
@@ -53,9 +53,13 @@ describe('Infrastructure.Settings.SettingsClient.LocalStorage.LocalStorage', fun
 
         await localStorage.updateSettings(settings);
 
-        expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
-            'settings',
+        assert.strictEqual(mockLocalStorage.setItem.mock.calls.length, 1);
+        assert.strictEqual(mockLocalStorage.setItem.mock.calls[0].arguments[0], 'settings');
+        assert.strictEqual(
+            mockLocalStorage.setItem.mock.calls[0].arguments[1],
             JSON.stringify({workingDirectory: 'test::workingDirectory'})
         );
     });
 });
+
+

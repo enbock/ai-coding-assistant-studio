@@ -1,3 +1,5 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
 import Memory from './Memory';
 import NodeEntity from '../../../../Core/Node/NodeEntity';
 
@@ -9,17 +11,17 @@ describe('Infrastructure.Node.NodeStorage.Memory.Memory', function (): void {
     });
 
     it('should return default for moving node', function (): void {
-        expect(memory.getMovedNodeId()).toBe('');
+        assert.strictEqual(memory.getMovedNodeId(), '');
     });
 
     it('should set node movement in progress', function (): void {
         memory.setMovedNodeId('test::id');
 
-        expect(memory.getMovedNodeId()).toBe('test::id');
+        assert.strictEqual(memory.getMovedNodeId(), 'test::id');
     });
 
     it('should get nodes', function (): void {
-        expect(memory.getNodes()).toEqual([]);
+        assert.deepStrictEqual(memory.getNodes(), []);
     });
 
     it('should set nodes', function (): void {
@@ -28,6 +30,6 @@ describe('Infrastructure.Node.NodeStorage.Memory.Memory', function (): void {
         node.x = 1;
         node.y = 2;
         memory.setNodes([node]);
-        expect(memory.getNodes()).toEqual([node]);
+        assert.deepStrictEqual(memory.getNodes(), [node]);
     });
 });

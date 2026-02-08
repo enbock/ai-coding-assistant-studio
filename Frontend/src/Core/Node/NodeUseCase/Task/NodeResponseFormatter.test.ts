@@ -1,3 +1,5 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
 import NodeResponseFormatter from './NodeResponseFormatter';
 import NodeEntity, {NodeId} from '../../NodeEntity';
 import {NodeItem} from '../NodeResponse';
@@ -23,13 +25,13 @@ describe('Core.Node.NodeUseCase.Task.NodeResponseFormatter', function (): void {
 
         const result: Array<NodeItem> = formatter.formatPositions(nodes, idOfMovingNode);
 
-        expect(result.length).toBe(2);
-        expect(result[0].x).toBe(10);
-        expect(result[0].y).toBe(20);
-        expect(result[0].isMoving).toBe(false);
-        expect(result[1].x).toBe(30);
-        expect(result[1].y).toBe(40);
-        expect(result[1].isMoving).toBe(true);
+        assert.strictEqual(result.length, 2);
+        assert.strictEqual(result[0].x, 10);
+        assert.strictEqual(result[0].y, 20);
+        assert.strictEqual(result[0].isMoving, false);
+        assert.strictEqual(result[1].x, 30);
+        assert.strictEqual(result[1].y, 40);
+        assert.strictEqual(result[1].isMoving, true);
     });
 
     it('should set isMoving to false if no node is moving', function (): void {
@@ -38,6 +40,6 @@ describe('Core.Node.NodeUseCase.Task.NodeResponseFormatter', function (): void {
         node.x = 5;
         node.y = 15;
         const result: Array<NodeItem> = formatter.formatPositions([node], <NodeId>'');
-        expect(result[0].isMoving).toBe(false);
+        assert.strictEqual(result[0].isMoving, false);
     });
 });

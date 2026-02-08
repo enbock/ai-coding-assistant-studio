@@ -1,3 +1,6 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {mock} from '../../../../test/mock';
 import Controller from './Controller';
 import Adapter from './Adapter';
 import Studio from '../View/Studio';
@@ -29,8 +32,9 @@ describe('Application.Studio.Controller.Controller', function (): void {
 
         controller.setComponent(studioView);
 
-        expect(studioPresenter.present).toHaveBeenCalledWith(Content.Empty);
-        expect(studioView.model).toBe(model);
+        assert.strictEqual(studioPresenter.present.mock.calls.length, 1);
+        assert.strictEqual(studioPresenter.present.mock.calls[0].arguments[0], Content.Empty);
+        assert.strictEqual(studioView.model, model);
     });
 
     it('should navigate to content via adapter callback', async function (): Promise<void> {
@@ -44,8 +48,8 @@ describe('Application.Studio.Controller.Controller', function (): void {
         controller.setComponent(studioView);
         adapter.navigateToContent(1);
 
-        expect(studioPresenter.present).toHaveBeenCalledWith(1);
-        expect(studioView.model).toBe(model);
+        assert.strictEqual(studioPresenter.present.mock.calls.length, 2);
+        assert.strictEqual(studioPresenter.present.mock.calls[1].arguments[0], 1);
+        assert.strictEqual(studioView.model, model);
     });
 });
-

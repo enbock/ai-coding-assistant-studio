@@ -1,3 +1,5 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
 import NodePresenter from './NodePresenter';
 import ResponseCollection from '../../Controller/ResponseCollection';
 import NodeModel from './NodeModel';
@@ -29,9 +31,11 @@ describe('NodePresenter', function (): void {
 
         const result: Array<NodeModel> = presenter.present(data);
 
-        expect(result[0].nodeId).toBe('test::id');
-        expect(result[0].x).toBe(300);
-        expect(result[0].y).toBe(500);
-        expect(result[0].dragging).toBe(true);
+        assert.strictEqual(result[0].nodeId, 'test::id');
+        assert.strictEqual(result[0].x, 300);
+        assert.strictEqual(result[0].y, 500);
+        assert.strictEqual(result[0].dragging, true);
     });
 });
+
+

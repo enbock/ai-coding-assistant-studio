@@ -1,20 +1,22 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {createSpy, mock} from '../../../../test/mock';
 import NodeUseCase from './NodeUseCase';
 import NodeStorage from '../NodeStorage';
 import NodeEntity from '../NodeEntity';
 import NodeResponse from './NodeResponse';
 import NodeResponseFormatter from './Task/NodeResponseFormatter';
 import NodeMoveRequest from './NodeMoveRequest';
-import createSpy = jasmine.createSpy;
 
 describe('Core.Node.NodeUseCase.NodeUseCase', function (): void {
     let nodeStorage: Mocked<NodeStorage>,
         nodeResponseFormatter: Mocked<NodeResponseFormatter>,
-        generateUuid: jasmine.Spy,
+        generateUuid: MockFunction<() => string>,
         useCase: NodeUseCase;
 
     beforeEach(function (): void {
         nodeStorage = mock<NodeStorage>();
-        generateUuid = createSpy();
+        generateUuid = createSpy<() => string>();
         nodeResponseFormatter = mock<NodeResponseFormatter>();
 
         useCase = new NodeUseCase(
@@ -35,18 +37,22 @@ describe('Core.Node.NodeUseCase.NodeUseCase', function (): void {
 
         const nodeResponse: NodeResponse = useCase.getState();
 
-        expect(nodeResponseFormatter.formatPositions).toHaveBeenCalledWith([position], 'test::id');
-        expect(nodeResponse.nodes).toBe(<MockedObject>'test::formattedNodes');
+        assert.strictEqual(nodeResponseFormatter.formatPositions.mock.calls.length, 1);
+        assert.deepStrictEqual(nodeResponseFormatter.formatPositions.mock.calls[0].arguments[0], [position]);
+        assert.strictEqual(nodeResponseFormatter.formatPositions.mock.calls[0].arguments[1], 'test::id');
+        assert.strictEqual(nodeResponse.nodes, <MockedObject>'test::formattedNodes');
     });
 
     it('should start node movement', function (): void {
         useCase.startMovement({nodeId: 'test::id'});
-        expect(nodeStorage.setMovedNodeId).toHaveBeenCalledWith('test::id');
+        assert.strictEqual(nodeStorage.setMovedNodeId.mock.calls.length, 1);
+        assert.strictEqual(nodeStorage.setMovedNodeId.mock.calls[0].arguments[0], 'test::id');
     });
 
     it('should stop node movement', function (): void {
         useCase.stopMovement();
-        expect(nodeStorage.setMovedNodeId).toHaveBeenCalledWith('');
+        assert.strictEqual(nodeStorage.setMovedNodeId.mock.calls.length, 1);
+        assert.strictEqual(nodeStorage.setMovedNodeId.mock.calls[0].arguments[0], '');
     });
 
     it('should move node to given position', function (): void {
@@ -63,9 +69,10 @@ describe('Core.Node.NodeUseCase.NodeUseCase', function (): void {
 
         useCase.moveNode(request);
 
-        expect(nodeStorage.setNodes).toHaveBeenCalledWith([node]);
-        expect(node.x).toBe(1);
-        expect(node.y).toBe(-2);
+        assert.strictEqual(nodeStorage.setNodes.mock.calls.length, 1);
+        assert.deepStrictEqual(nodeStorage.setNodes.mock.calls[0].arguments[0], [node]);
+        assert.strictEqual(node.x, 1);
+        assert.strictEqual(node.y, -2);
     });
 
     it('should add a new node with generated id and update storage', function (): void {
@@ -76,13 +83,13 @@ describe('Core.Node.NodeUseCase.NodeUseCase', function (): void {
         generateUuid.and.returnValue('test::uuid');
         nodeStorage.getNodes.and.returnValue(nodes);
         nodeStorage.setNodes.and.callFake(function (updatedNodes: Array<NodeEntity>): void {
-            expect(updatedNodes.length).toBe(2);
-            expect(updatedNodes[0].id).toBe('test::beforeCreatedNode');
-            expect(updatedNodes[1].id).toBe('test::uuid');
+            assert.strictEqual(updatedNodes.length, 2);
+            assert.strictEqual(updatedNodes[0].id, 'test::beforeCreatedNode');
+            assert.strictEqual(updatedNodes[1].id, 'test::uuid');
         });
 
         useCase.addNode();
 
-        expect(nodeStorage.setNodes).toHaveBeenCalled();
+        assert.strictEqual(nodeStorage.setNodes.mock.calls.length, 1);
     });
 });

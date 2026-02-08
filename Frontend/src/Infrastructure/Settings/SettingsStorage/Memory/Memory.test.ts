@@ -1,3 +1,5 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
 import Memory from './Memory';
 import SettingsEntity from '../../../../Core/Settings/SettingsEntity';
 
@@ -11,7 +13,7 @@ describe('Infrastructure.Settings.SettingsStorage.Memory.Memory', function (): v
     it('should return default settings', function (): void {
         const settings: SettingsEntity = memory.getSettings();
 
-        expect(settings.workingDirectory).toBe('');
+        assert.strictEqual(settings.workingDirectory, '');
     });
 
     it('should set and get settings', function (): void {
@@ -20,6 +22,8 @@ describe('Infrastructure.Settings.SettingsStorage.Memory.Memory', function (): v
 
         memory.setSettings(settings);
 
-        expect(memory.getSettings()).toBe(settings);
+        assert.strictEqual(memory.getSettings(), settings);
     });
 });
+
+

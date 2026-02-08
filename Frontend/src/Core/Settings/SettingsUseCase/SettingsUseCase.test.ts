@@ -1,3 +1,6 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {mock} from '../../../../test/mock';
 import SettingsUseCase from './SettingsUseCase';
 import SettingsStorage from '../SettingsStorage';
 import SettingsClient from '../SettingsClient';
@@ -25,8 +28,9 @@ describe('Core.Settings.SettingsUseCase.SettingsUseCase', function (): void {
 
         await useCase.loadSettings();
 
-        expect(settingsClient.loadSettings).toHaveBeenCalled();
-        expect(settingsStorage.setSettings).toHaveBeenCalledWith(settings);
+        assert.strictEqual(settingsClient.loadSettings.mock.calls.length, 1);
+        assert.strictEqual(settingsStorage.setSettings.mock.calls.length, 1);
+        assert.deepStrictEqual(settingsStorage.setSettings.mock.calls[0].arguments[0], settings);
     });
 
     it('should get current settings', function (): void {
@@ -38,7 +42,7 @@ describe('Core.Settings.SettingsUseCase.SettingsUseCase', function (): void {
         const response: SettingsResponse = new SettingsResponse();
         useCase.getSettings(response);
 
-        expect(response.workingDirectory).toBe('test::working-directory');
+        assert.strictEqual(response.workingDirectory, 'test::working-directory');
     });
 
     it('should update working directory', async function (): Promise<void> {
@@ -53,9 +57,13 @@ describe('Core.Settings.SettingsUseCase.SettingsUseCase', function (): void {
 
         await useCase.updateWorkingDirectory(request);
 
-        expect(settingsStorage.getSettings).toHaveBeenCalled();
-        expect(settings.workingDirectory).toBe('test::new-directory');
-        expect(settingsClient.updateSettings).toHaveBeenCalledWith(settings);
-        expect(settingsStorage.setSettings).toHaveBeenCalledWith(settings);
+        assert.strictEqual(settingsStorage.getSettings.mock.calls.length, 1);
+        assert.strictEqual(settings.workingDirectory, 'test::new-directory');
+        assert.strictEqual(settingsClient.updateSettings.mock.calls.length, 1);
+        assert.deepStrictEqual(settingsClient.updateSettings.mock.calls[0].arguments[0], settings);
+        assert.strictEqual(settingsStorage.setSettings.mock.calls.length, 1);
+        assert.deepStrictEqual(settingsStorage.setSettings.mock.calls[0].arguments[0], settings);
     });
 });
+
+

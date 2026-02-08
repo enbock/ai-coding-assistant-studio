@@ -1,20 +1,21 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {createSpy, mock} from '../../../../../test/mock';
 import SettingsHandler from './SettingsHandler';
 import Adapter from '../Adapter';
 import SettingsUseCase from '../../../../Core/Settings/SettingsUseCase/SettingsUseCase';
-import {RefreshContentCallback} from '../../../ControllerHandler';
 import SettingsRequest from '../../../../Core/Settings/SettingsUseCase/SettingsRequest';
-import createSpy = jasmine.createSpy;
 
 describe('Application.Settings.Controller.Handler.SettingsHandler', function (): void {
     let handler: SettingsHandler,
         adapter: Mocked<Adapter>,
         settingsUseCase: Mocked<SettingsUseCase>,
-        refreshContent: RefreshContentCallback;
+        refreshContent: MockFunction<() => Promise<void>>;
 
     beforeEach(function (): void {
         adapter = mock<Adapter>();
         settingsUseCase = mock<SettingsUseCase>();
-        refreshContent = createSpy();
+        refreshContent = createSpy<() => Promise<void>>();
 
         handler = new SettingsHandler(
             adapter,
@@ -28,13 +29,16 @@ describe('Application.Settings.Controller.Handler.SettingsHandler', function ():
 
         const expectedRequest: SettingsRequest = {workingDirectory: 'test::new-directory'};
 
-        expect(settingsUseCase.updateWorkingDirectory).toHaveBeenCalledWith(expectedRequest);
-        expect(refreshContent).toHaveBeenCalled();
+        assert.strictEqual(settingsUseCase.updateWorkingDirectory.mock.calls.length, 1);
+        assert.deepStrictEqual(settingsUseCase.updateWorkingDirectory.mock.calls[0].arguments[0], expectedRequest);
+        assert.strictEqual(refreshContent.mock.calls.length, 1);
     });
 
     it('should initial load the settings', async function (): Promise<void> {
         await handler.initialize(refreshContent);
 
-        expect(settingsUseCase.loadSettings).toHaveBeenCalled();
+        assert.strictEqual(settingsUseCase.loadSettings.mock.calls.length, 1);
     });
 });
+
+

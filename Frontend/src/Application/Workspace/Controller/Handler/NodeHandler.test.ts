@@ -1,19 +1,21 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {createSpy, mock} from '../../../../../test/mock';
 import NodeHandler from './NodeHandler';
 import Adapter from '../Adapter';
 import NodeUseCase from '../../../../Core/Node/NodeUseCase/NodeUseCase';
 import {RefreshContentCallback} from '../../../ControllerHandler';
-import createSpy = jasmine.createSpy;
 
 describe('Application.Workspace.Controller.Handler.NodeHandler', function (): void {
     let adapter: Mocked<Adapter>,
         nodeUseCase: Mocked<NodeUseCase>,
-        presentData: RefreshContentCallback,
+        presentData: MockFunction<RefreshContentCallback>,
         handler: NodeHandler;
 
     beforeEach(function (): void {
         adapter = mock<Adapter>();
         nodeUseCase = mock<NodeUseCase>();
-        presentData = createSpy();
+        presentData = createSpy<RefreshContentCallback>();
 
         handler = new NodeHandler(adapter, nodeUseCase);
     });
@@ -22,7 +24,7 @@ describe('Application.Workspace.Controller.Handler.NodeHandler', function (): vo
         await handler.initialize(presentData);
         adapter.addNode();
 
-        expect(nodeUseCase.addNode).toHaveBeenCalled();
-        expect(presentData).toHaveBeenCalled();
+        assert.strictEqual(nodeUseCase.addNode.mock.calls.length, 1);
+        assert.strictEqual(presentData.mock.calls.length, 1);
     });
 });

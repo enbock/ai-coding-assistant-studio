@@ -6,9 +6,9 @@
   "scripts": {
     "start": "webpack serve --open --mode development --no-open --no-hot --stats-error-details",
     "build": "webpack --mode production",
-    "test:compile": "tsc -p .",
-    "test:watch": "tsc -p . --watch",
-    "test": "node -r ./jasmine/globalSetup.cjs ./node_modules/jasmine/bin/jasmine.js --config=jasmine/jasmine.json"
+    "test:compile": "rimraf .testBuild && tsc -p .",
+    "test:watch": "rimraf .testBuild && tsc -p . --watch",
+    "test": "node --import ./test/globalSetup.cjs --test .testBuild/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -25,10 +25,6 @@
   "homepage": "https://www.itbock.de",
   "devDependencies": {
     "@enbock/ts-jsx": "*",
-    "@testing-library/dom": "*",
-    "@testing-library/jasmine-dom": "*",
-    "@testing-library/user-event": "*",
-    "@types/jasmine": "*",
     "@types/jsdom": "*",
     "@types/node": "*",
     "@types/webpack": "*",
@@ -36,8 +32,8 @@
     "copy-webpack-plugin": "*",
     "css-loader": "*",
     "html-webpack-plugin": "*",
-    "jasmine": "*",
     "jsdom": "*",
+    "rimraf": "*",
     "ts-loader": "*",
     "ts-node": "*",
     "tsconfig-paths": "*",

@@ -1,3 +1,6 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {mock} from '../../../../../test/mock';
 import ScreenConfigHandler from './ScreenConfigHandler';
 import ScreenConfig from '../../../ScreenConfig';
 
@@ -23,7 +26,7 @@ describe('Application.Workspace.Controller.Handler.ScreenConfigHandler', functio
 
         await handler.initialize();
 
-        expect(screenConfig.width).toBe(1200);
-        expect(screenConfig.height).toBe(800);
+        assert.strictEqual(screenConfig.width, 1200);
+        assert.strictEqual(screenConfig.height, 800);
     });
 });

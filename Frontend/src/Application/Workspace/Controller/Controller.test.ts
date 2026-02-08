@@ -1,3 +1,6 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {mock} from '../../../../test/mock';
 import Controller from './Controller';
 import ControllerHandler from '../../ControllerHandler';
 import {RefreshContentCallback} from '../../ControllerHandler';
@@ -44,11 +47,13 @@ describe('Application.Workspace.Controller.Controller', function (): void {
             await controller.initialize();
             controller.setComponent(workspaceInstance);
 
-            expect(handler.initialize).toHaveBeenCalled();
-            expect(dataCollector.collectData).toHaveBeenCalled();
-            expect(presenter.present).toHaveBeenCalledWith(<MockedObject>'test::data');
-            expect(presenter.present).toHaveBeenCalledTimes(2);
-            expect(workspaceInstance.model).toEqual(<MockedObject>'test::presentedModel');
+            assert.strictEqual(handler.initialize.mock.calls.length, 1);
+            assert.strictEqual(dataCollector.collectData.mock.calls.length, 2);
+            assert.strictEqual(presenter.present.mock.calls.length, 2);
+            assert.deepStrictEqual(presenter.present.mock.calls[0].arguments[0], <MockedObject>'test::data');
+            assert.strictEqual(workspaceInstance.model, <MockedObject>'test::presentedModel');
         }
     );
 });
+
+

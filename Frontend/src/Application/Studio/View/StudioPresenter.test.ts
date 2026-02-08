@@ -1,3 +1,6 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
+import {mock} from '../../../../test/mock';
 import StudioPresenter from './StudioPresenter';
 import StudioModel from './StudioModel';
 import ContentRegistry from '../Controller/ContentRegistry';
@@ -17,8 +20,11 @@ describe('Application.Studio.View.StudioPresenter', function (): void {
 
         const result: StudioModel = presenter.present(0);
 
-        expect(contentRegistry.getViewComponent).toHaveBeenCalledWith(0);
-        expect(result.view).toBe(<MockedObject>'test::viewComponent');
+        assert.strictEqual(contentRegistry.getViewComponent.mock.calls.length, 1);
+        assert.strictEqual(contentRegistry.getViewComponent.mock.calls[0].arguments[0], 0);
+        assert.strictEqual(result.view, <MockedObject>'test::viewComponent');
     });
 });
+
+
 

@@ -1,3 +1,5 @@
+import {beforeEach, describe, it} from 'node:test';
+import assert from 'node:assert';
 import ResponseCollection from '../Controller/ResponseCollection';
 import SettingsModel from './SettingsModel';
 import SettingsPresenter from './SettingsPresenter';
@@ -15,6 +17,6 @@ describe('Application.Settings.View.SettingsPresenter', function (): void {
 
         const result: SettingsModel = presenter.present(data);
 
-        expect(result.workingDirectory).toBe('test::working-directory');
+        assert.strictEqual(result.workingDirectory, 'test::working-directory');
     });
 });
