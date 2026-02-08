@@ -15,7 +15,6 @@ global.customElements = window.customElements;
 global.MouseEvent = window.MouseEvent;
 
 require('./mock.cjs');
-require('./mockModule.cjs');
 
 // @ts-ignore
 global.Storage = class {

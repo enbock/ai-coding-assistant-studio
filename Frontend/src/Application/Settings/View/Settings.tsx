@@ -42,8 +42,8 @@ export default class Settings extends Component<ComponentProperties> implements 
         );
     }
 
-    private handleInput(event: Event): void {
+    private async handleInput(event: Event): Promise<void> {
         const targetDirectory: string = (event.target as HTMLInputElement).value;
-        this.adapter.updateWorkingDirectory(targetDirectory);
+        await this.adapter.updateWorkingDirectory(targetDirectory);
     }
 }
